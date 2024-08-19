@@ -38,7 +38,7 @@ export const Card = ({ type, item }) => {
             <img src={`https://starwars-visualguide.com/assets/img/${type}/${item.uid}.jpg`} className="card-img-top" alt="..." />
             <div className="card-body">
                 {displayProperty}
-                <Link to={`pplinfo/${item._id}`}>
+                <Link to={`info/people/${item._id}`}>
                     <button className="btn btn-primary">Learn More!</button>
                 </Link>
             </div>

@@ -36,30 +36,39 @@ export const Info = () => {
             <div>
                 <div className="d-flex justify-content-between px-5">
 
+                    {
+                        item.map((key, index) => {
+                            return (
+                                <div key={key} >
+                                    <h3>{key}</h3>
+                                    <p>{index}</p>
+                                </div>
+                            )
+                        }
                     <div className="d-flex flex-column">
-                        <p>Name:</p>
-                        <p>{item?.properties?.name}</p>
-                    </div>
+                                <p>Name:</p>
+                                <p>{item?.properties?.name}</p>
+                            </div>
 
-                    <div className="d-flex flex-column">
-                        <p>Skin color:</p>
-                        <p>{item?.properties?.skin_color}</p>
-                    </div>
+                            <div className="d-flex flex-column">
+                                <p>Skin color:</p>
+                                <p>{item?.properties?.skin_color}</p>
+                            </div>
 
-                    <div className="d-flex flex-column">
-                        <p>Eye color:</p>
-                        <p>{item?.properties?.eye_color}</p>
-                    </div>
+                            <div className="d-flex flex-column">
+                                <p>Eye color:</p>
+                                <p>{item?.properties?.eye_color}</p>
+                            </div>
 
-                    <div className="d-flex flex-column">
-                        <p>Birth gender:</p>
-                        <p>{item?.properties?.birth_year}</p>
-                    </div>
+                            <div className="d-flex flex-column">
+                                <p>Birth gender:</p>
+                                <p>{item?.properties?.birth_year}</p>
+                            </div>
 
-                    <div className="d-flex flex-column">
-                        <p>Height:</p>
-                        <p>{item?.properties?.height}</p>
-                    </div>
+                            <div className="d-flex flex-column">
+                                <p>Height:</p>
+                                <p>{item?.properties?.height}</p>
+                            </div>
                 </div>
             </div>
         </div>
