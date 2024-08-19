@@ -21,56 +21,36 @@ export const Info = () => {
         findItem();
     }, [store.people]);
 
-    return (
-        <div>
-            <div className="d-flex row p-5">
-                <div className="col-6 p-5 d-flex mx-auto">
-                    <img src={`https://starwars-visualguide.com/assets/img/characters/${item?.uid}.jpg`} className="mx-auto" alt="Imagen de prueba" />
+    const renderProperties = (properties) => {
+        if (!properties) return null;
+
+        return Object.entries(properties)
+            .filter(([key, value]) => key !== 'description' && key !== 'name')
+            .map(([key, value]) => (
+                <div key={key}>
+                    <p>{`${capitalizeFirstLetter(key)}: ${value}`}</p>
                 </div>
-                <div className="col-6 p-5">
+            ));
+    };
+
+    return (
+        <div className="d-flex mt-5">
+            <div className="col-6 mx-auto mt-3">
+                <img src={`https://starwars-visualguide.com/assets/img/characters/${item?.uid}.jpg`} className="rounded-circle img-fluid" alt="Imagen de prueba" />
+            </div>
+            <div className="me-auto card">
+                <div className="card-header">
                     <h2>{item?.properties?.name}</h2>
                     <p>{item?.description}</p>
                 </div>
-            </div>
-            <hr />
-            <div>
-                <div className="d-flex justify-content-between px-5">
-
-                    {
-                        item.map((key, index) => {
-                            return (
-                                <div key={key} >
-                                    <h3>{key}</h3>
-                                    <p>{index}</p>
-                                </div>
-                            )
-                        }
-                    <div className="d-flex flex-column">
-                                <p>Name:</p>
-                                <p>{item?.properties?.name}</p>
-                            </div>
-
-                            <div className="d-flex flex-column">
-                                <p>Skin color:</p>
-                                <p>{item?.properties?.skin_color}</p>
-                            </div>
-
-                            <div className="d-flex flex-column">
-                                <p>Eye color:</p>
-                                <p>{item?.properties?.eye_color}</p>
-                            </div>
-
-                            <div className="d-flex flex-column">
-                                <p>Birth gender:</p>
-                                <p>{item?.properties?.birth_year}</p>
-                            </div>
-
-                            <div className="d-flex flex-column">
-                                <p>Height:</p>
-                                <p>{item?.properties?.height}</p>
-                            </div>
+                <div className="card-body">
+                    {renderProperties(item?.properties)}
                 </div>
             </div>
         </div>
     )
 }
+
+const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
