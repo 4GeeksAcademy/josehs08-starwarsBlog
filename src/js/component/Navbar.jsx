@@ -1,32 +1,65 @@
-import React from "react";
-import { Link } from "react-router-dom"
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { Context } from "../store/appContext.js";
 
 export const Navbar = () => {
-    return (
-        <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-            <div className="container-fluid">
-                <Link to={`/`}>
-                    <p className="navbar-brand">Star wars</p>
-                </Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Favorites
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">Action</a></li>
-                                <li><a className="dropdown-item" href="#">Another action</a></li>
-                                <li><hr className="dropdown-divider" /></li>
-                                <li><a className="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    )
-}
+  const { store } = useContext(Context);
+
+  const getTypeForItem = (item) => {
+    for (const endpoint of store.endpoints) {
+      if (store[endpoint].some((storeItem) => storeItem._id === item._id)) {
+        return endpoint === "people" ? "characters" : endpoint;
+      }
+    }
+    return null;
+  };
+
+  return (
+    <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+      <div className="container-fluid">
+        <Link to={`/`} className="text-decoration-none">
+          <p className="navbar-brand text-white">Star wars</p>
+        </Link>
+        <div className="dropdown me-5">
+          <button
+            className="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Likes
+          </button>
+          <ul className="dropdown-menu dropdown-menu-end">
+            {Object.keys(store.likes).length <= 0 ? (
+              <li className="dropdown-item">No hay items liked</li>
+            ) : (
+              Object.entries(store.likes).map(([key, value]) => {
+                const type = getTypeForItem(value);
+                return (
+                  type && (
+                    <li key={key}>
+                      <Link
+                        to={`/info/${type}/${value._id}`}
+                        className="dropdown-item"
+                      >
+                        {`${capitalizeFirstLetter(type)}: ${
+                          value.properties.name
+                        }`}
+                      </Link>
+                    </li>
+                  )
+                );
+              })
+            )}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+export default Navbar;
